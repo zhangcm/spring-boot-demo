@@ -8,7 +8,7 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.ApplicationContext;
 
 /**
- * @author OF1264
+ * @author zhangcm
  * @since 1.0, 2017/9/20 下午6:15
  */
 @EnableCaching
@@ -20,8 +20,8 @@ public class CacheDemoApplication {
 
         UserService userTokenService = ctx.getBean(UserService.class);
         User userToken = userTokenService.get(1);
-        System.out.println(userToken);
+        System.out.println(userToken.getName());
         userToken = userTokenService.get(1);
-        System.out.println(userToken);
+        System.out.println(userToken.getName());
     }
 }

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserRepository {
 
-    User findOne(long id) {
+    User findOne(int id) {
         return User.builder().id(id).name("name").age(20).build();
     }
 }

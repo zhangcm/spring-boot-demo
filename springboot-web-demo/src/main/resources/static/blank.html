@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Document</title>
+</head>
+<body>
+</body>
+<script>
+
+  var PREFIX = 'im';
+  var isSafari = navigator.userAgent.indexOf("Safari") > -1 && navigator.userAgent.indexOf("Chrome") < 0 ;
+
+  function getQueryString(name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+    var r = window.location.search.substr(1).match(reg);
+    if (r != null) {
+      return decodeURIComponent(r[2]);
+    }
+    return null;
+  }
+
+  if (isSafari) {
+    var command = getQueryString('command');
+    var msgStr = getQueryString('message');
+    var msg;
+    if (!msgStr) {
+      msg = {};
+    } else {
+      var arr = msgStr.split(':')
+      msg = {
+        channelId: arr[0],
+        msgId: arr[1]
+      }
+    }
+    execute(command, msg);
+  } else {
+    window.onload = function () {
+      window.addEventListener('message', function (e) {
+        execute(e.data.command, e.data.msg);
+      })
+    }
+  }
+
+  function execute(command, msg) {
+    if (!command) {
+      return;
+    }
+    switch (command) {
+      // 存消息
+      case 'set':
+        if (msg.channelId) {
+          set(msg.channelId, msg.msgId);
+        }
+        return;
+      // 取所有消息
+      case 'getAll':
+        back(getAll());
+    }
+  }
+
+  function back(msgs){
+    window.parent.postMessage(msgs, '*')
+  }
+
+  function set(channelId, message) {
+    let v = localStorage.getItem(PREFIX + channelId);
+			if (!v) {
+				v = [];
+			} else {
+				v = JSON.parse(v);
+			}
+			v.push(message);
+			localStorage.setItem(PREFIX + channelId, JSON.stringify(v));
+  }
+
+  function getAll() {
+    var m = {};
+    Object.keys(window.localStorage).forEach(function (key) {
+      if (key.indexOf(PREFIX) != -1) {
+        var channelId = key.replace(PREFIX, "");
+        var v = window.localStorage.getItem(key);
+        m[channelId] = JSON.parse(v || "[]");
+      }
+    })
+    return m;
+  }
+
+</script>
+</html>

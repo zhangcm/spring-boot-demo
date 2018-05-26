@@ -13,8 +13,12 @@ public class UserService {
     @Autowired
     private UserRepository userTokenRepository;
 
-    @Cacheable("user")
-    public User get(long id) {
+    /**
+     * 配置了StringRedisSerializer后，要求key必须是String类型，此处int强转String会报错，
+     * 提供一个keyGenerator做转化
+     */
+    @Cacheable(value = "user", keyGenerator = "keyGenerator")
+    public User get(int id) {
         return userTokenRepository.findOne(id);
     }
 }

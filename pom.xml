@@ -13,15 +13,21 @@
     <modules>
         <module>springboot-cache-demo</module>
         <module>springboot-profile-demo</module>
+        <module>springboot-async-demo</module>
+        <module>springboot-web-demo</module>
+        <module>springboot-jpa-demo</module>
+        <module>springboot-datasource-demo</module>
+        <module>springboot-simple-demo</module>
     </modules>
 
-    <groupId>com.springboot</groupId>
+    <groupId>com.study.springboot</groupId>
     <artifactId>springboot-demo</artifactId>
     <packaging>pom</packaging>
     <version>1.0.0-SNAPSHOT</version>
 
     <properties>
         <spring-boot-starter.version>1.5.2.RELEASE</spring-boot-starter.version>
+        <java.version>1.8</java.version>
     </properties>
 
     <dependencyManagement>
@@ -49,6 +55,24 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-cache</artifactId>
                 <version>${spring-boot-starter.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-devtools</artifactId>
+                <version>${spring-boot-starter.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>2.8.6</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.qianmi</groupId>
+                <artifactId>spring-redis-lock</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
             </dependency>
 
             <dependency>
